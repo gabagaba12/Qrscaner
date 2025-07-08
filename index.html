@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>HoleOut - Escáner de Membresía</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      color: #222;
+    }
+    #reader {
+      width: 300px;
+      margin: 0 auto;
+    }
+    #infoCliente {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: none;
+      text-align: left;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Escanear Membresía HoleOut</h1>
+
+  <div id="reader"></div>
+
+  <div id="infoCliente">
+    <h2>Información del cliente</h2>
+    <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+    <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+    <p><strong>Fecha de nacimiento:</strong> <span id="nacimiento"></span></p>
+    <p><strong>Correo:</strong> <span id="correo"></span></p>
+    <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
+  </div>
+
+  <script>
+    const clientes = {
+      "0YkosQFW7vSnnhUHBBtZ1t": {
+        nombre: "Oscar",
+        apellido: "Sierra",
+        nacimiento: "01/12/2001",
+        correo: "osierra@k1speed.mx",
+        telefono: "+52 55 1069 7445"
+      },
+      "39I7J02UGr6ICxUSE0oWCB": {
+        nombre: "Alfonso",
+        apellido: "Paredes",
+        nacimiento: "17/06/1988",
+        correo: "aparedes@k1speed.mx",
+        telefono: "+52 55 7445 1842"
+      }
+      // Agrega más clientes según los necesites
+    };
+
+    function mostrarCliente(id) {
+      const cliente = clientes[id];
+      if (cliente) {
+        document.getElementById("nombre").textContent = cliente.nombre;
+        document.getElementById("apellido").textContent = cliente.apellido;
+        document.getElementById("nacimiento").textContent = cliente.nacimiento;
+        document.getElementById("correo").textContent = cliente.correo;
+        document.getElementById("telefono").textContent = cliente.telefono;
+        document.getElementById("infoCliente").style.display = "block";
+      } else {
+        alert("Cliente no encontrado");
+      }
+    }
+
+    const qrScanner = new Html5Qrcode("reader");
+
+    qrScanner.start(
+      { facingMode: "environment" },
+      {
+        fps: 10,
+        qrbox: 250
+      },
+      (decodedText, decodedResult) => {
+        qrScanner.stop(); // para que no escanee múltiples veces
+        mostrarCliente(decodedText.trim());
+      },
+      (errorMessage) => {
+        // Puedes mostrar errores si quieres
+      }
+    );
+  </script>
+
+</body>
+</html>
