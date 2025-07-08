@@ -1,51 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HoleOut - Escáner de Membresía</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background-color: #f2f2f2;
-    }
-    h1 {
-      color: #222;
-    }
-    #reader {
-      width: 300px;
-      margin: 0 auto;
-    }
-    #infoCliente {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: none;
-      text-align: left;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <h1>Escanear Membresía HoleOut</h1>
+  <header>
+    <img src="https://holeout.mx/wp-content/uploads/2024/02/logo-white.svg" alt="LOGO aqui" class="logo" />
+    <h1>Escanear Membresía</h1>
+  </header>
 
-  <div id="reader"></div>
+  <main>
+    <div id="reader"></div>
 
-  <div id="infoCliente">
-    <h2>Información del cliente</h2>
-    <p><strong>Nombre:</strong> <span id="nombre"></span></p>
-    <p><strong>Apellido:</strong> <span id="apellido"></span></p>
-    <p><strong>Fecha de nacimiento:</strong> <span id="nacimiento"></span></p>
-    <p><strong>Correo:</strong> <span id="correo"></span></p>
-    <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
-  </div>
+    <div id="infoCliente">
+      <h2>Información del cliente</h2>
+      <div class="dato"><strong>Nombre:</strong> <span id="nombre"></span></div>
+      <div class="dato"><strong>Apellido:</strong> <span id="apellido"></span></div>
+      <div class="dato"><strong>Fecha de nacimiento:</strong> <span id="nacimiento"></span></div>
+      <div class="dato"><strong>Correo:</strong> <span id="correo"></span></div>
+      <div class="dato"><strong>Teléfono:</strong> <span id="telefono"></span></div>
+      <button onclick="reiniciarEscaneo()">Escanear otro</button>
+    </div>
+  </main>
+
+  <footer>
+
+  </p>mvp :)
+  </footer>
 
   <script>
     const clientes = {
@@ -63,8 +50,9 @@
         correo: "aparedes@k1speed.mx",
         telefono: "+52 55 7445 1842"
       }
-      // Agrega más clientes según los necesites
     };
+
+    const qrScanner = new Html5Qrcode("reader");
 
     function mostrarCliente(id) {
       const cliente = clientes[id];
@@ -75,28 +63,33 @@
         document.getElementById("correo").textContent = cliente.correo;
         document.getElementById("telefono").textContent = cliente.telefono;
         document.getElementById("infoCliente").style.display = "block";
+        document.getElementById("reader").style.display = "none";
       } else {
         alert("Cliente no encontrado");
       }
     }
 
-    const qrScanner = new Html5Qrcode("reader");
+    function reiniciarEscaneo() {
+      document.getElementById("infoCliente").style.display = "none";
+      document.getElementById("reader").style.display = "block";
+      qrScanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decodedText) => {
+          qrScanner.stop();
+          mostrarCliente(decodedText.trim());
+        }
+      );
+    }
 
     qrScanner.start(
       { facingMode: "environment" },
-      {
-        fps: 10,
-        qrbox: 250
-      },
-      (decodedText, decodedResult) => {
-        qrScanner.stop(); // para que no escanee múltiples veces
+      { fps: 10, qrbox: 250 },
+      (decodedText) => {
+        qrScanner.stop();
         mostrarCliente(decodedText.trim());
-      },
-      (errorMessage) => {
-        // Puedes mostrar errores si quieres
       }
     );
   </script>
-
 </body>
 </html>
