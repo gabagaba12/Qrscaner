@@ -159,3 +159,11 @@ body {
 .f1 { background: #f22eb4; top: 10px; left: 10px; clip-path: polygon(0 0, 100% 0, 0 100%); }
 .f2 { background: #f26522; top: 20%; right: 10px; transform: rotate(30deg); }
 .f3 { background: #00cfff; bottom: 80px; left: 20px; clip-path: circle(50%); }
+
+#reader > div {
+  background-color: white;
+  z-index: 5;
+}
+#reader {
+  min-height: 250px;
+}
