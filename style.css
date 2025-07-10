@@ -1,3 +1,17 @@
+#reader {
+  width: 100%;
+  max-width: 300px;
+  min-height: 250px;
+  margin: 0 auto 30px;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 5;
+}
+
+#reader > div {
+  background-color: white;
+  z-index: 5;
+}
 
 
 
@@ -32,12 +46,7 @@ main {
   background-color: #000;
 }
 
-#reader {
-  width: 300px;
-  margin: 0 auto 30px;
-  border-radius: 12px;
-  overflow: hidden;
-}
+
 
 
 #infoCliente {
@@ -88,10 +97,7 @@ button:hover {
 
 
 
-#reader {
-  width: 100%;
-  max-width: 300px;
-}
+
 
 html, body {
   height: 100%;
@@ -160,10 +166,3 @@ body {
 .f2 { background: #f26522; top: 20%; right: 10px; transform: rotate(30deg); }
 .f3 { background: #00cfff; bottom: 80px; left: 20px; clip-path: circle(50%); }
 
-#reader > div {
-  background-color: white;
-  z-index: 5;
-}
-#reader {
-  min-height: 250px;
-}
